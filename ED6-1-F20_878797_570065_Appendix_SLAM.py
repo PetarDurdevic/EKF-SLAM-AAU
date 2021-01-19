@@ -272,11 +272,14 @@ def set_map():
     # Load a set of raw LiDAR point measurements in polar coordinates that represent the environment in the global frame
     g_point_cloud_pc = np.loadtxt("rectangular environment point cloud pc.out", delimiter=',')  # add path here
     g_point_cloud_pc = fix_angle(g_point_cloud_pc)
-
+    
+    # get mypath
+    my_path = os.getcwd()
+    
     # Load global frame parameters (r, psi) and midpoint cooridnates in the environment
-    r = np.loadtxt("C:/Users/Matei CACIULEANU/Desktop/University/Semester 6/P6/Python/SLAM/rho.out")
-    psi = np.loadtxt("C:/Users/Matei CACIULEANU/Desktop/University/Semester 6/P6/Python/SLAM/alpha.out")
-    g_m_mid_true = np.loadtxt("C:/Users/Matei CACIULEANU/Desktop/University/Semester 6/P6/Python/SLAM/midpoints.out", delimiter=',')
+    r = np.loadtxt(my_path + "/rho.out")
+    psi = np.loadtxt(my_path + "/alpha.out")
+    g_m_mid_true = np.loadtxt(my_path + "/midpoints.out", delimiter=',')
     
     # Construct global line landmark map in polar coordinates
     g_m_pc_true = np.array([r,psi]).T 
@@ -1302,7 +1305,13 @@ for j in range(number_of_iterations):
     fig.tight_layout(pad = 0)
     
     # saving figures for animation
-    my_path = os.getcwd() + "/SLAM figures/"
+    path = os.getcwd() + "/SLAM figures/"
+    if not os.path.exists(path):
+        os.makedirs(path)
+        # os.mkdir(path)
+    
+    
+    my_path = os.getcwd() + "/SLAM figures"
     my_file = str(figure) + '.png'
     plt.savefig(os.path.join(my_path, my_file))
     figure = figure + 1 
